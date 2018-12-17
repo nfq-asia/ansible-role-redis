@@ -1,0 +1,56 @@
+        - name: Install the build
+          apt:
+            name: "{{ build_package}}"
+            state: present
+
+        - name: Download source redis
+          get_url: url=http://download.redis.io/releases/{{ redis_source_name }} dest=/tmp
+
+        - name: Unrar file
+          unarchive:
+                  copy: no
+                  dest: /tmp/
+                  src: /tmp/{{ redis_source_name }}
+        - name: make file and install
+          shell: cd /tmp/{{ redis_version }} && make && make install
+
+        - name: Make a directory
+          file:
+                  path: /etc/redis
+                  state: directory
+                  owner: redis
+                  group: redis
+                  mode: 0775
+          #shell: cd /tmp/ "{{ redis_source_name }}"
+          #command: "{{ item }}"
+          #     with_items:
+          #              - make
+          #              - make install
+        - name: Make file systemd
+          template:
+                  src: redis.service
+                  dest: "{{ redis_systemd_path }}"
+        - name: Create Redis User Group and Dir
+          command: "adduser --system --group --no-create-home redis"
+        - name: Set ownership and permission
+          file:
+                path: /var/lib/redis
+                state: directory
+                owner: redis
+                group: redis
+                mode: 0775
+
+        - name: Configure Redis and restart service.
+          #shell: mkdir /etc/redis
+          template:
+                 src: redis.conf.back
+                 dest: "{{ redis_conf_path }}"
+                 mode: 0644
+          notify: restart redis
+
+        - name: Check service Redis and enabled on boot.
+          service: 
+                name: "{{ redis_daemon }}"
+                state: started
+                enabled: yes
+
