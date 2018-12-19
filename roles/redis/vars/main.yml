@@ -2,7 +2,7 @@
            redis_systemd_path: /etc/systemd/system/
            redis_source_name: redis-5.0.2.tar.gz
            redis_daemon: redis.service
-           redis_conf_path: /etc/redis/redis.conf
+           redis_conf_path: /etc/redis/
            redis_version: redis-5.0.2
            build_package:
                 - build-essential

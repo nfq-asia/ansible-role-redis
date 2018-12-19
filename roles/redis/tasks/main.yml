@@ -21,11 +21,6 @@
                   owner: redis
                   group: redis
                   mode: 0775
-          #shell: cd /tmp/ "{{ redis_source_name }}"
-          #command: "{{ item }}"
-          #     with_items:
-          #              - make
-          #              - make install
         - name: Make file systemd
           template:
                   src: redis.service
@@ -41,9 +36,8 @@
                 mode: 0775
 
         - name: Configure Redis and restart service.
-          #shell: mkdir /etc/redis
           template:
-                 src: redis.conf.back
+                 src: redis.conf
                  dest: "{{ redis_conf_path }}"
                  mode: 0644
           notify: restart redis
