@@ -15,5 +15,5 @@ $ ansible-playbook -i hosts redis.yml
 
 #Note
 
-We can change version, directory install ... in vars/install_redis.yml
+We can change version, directory install ... in vars/main.yml
 
