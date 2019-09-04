@@ -1,2 +1,8 @@
 ---
-# defaults file for redis
+redis_package: redis-server
+redis_daemon: redis.service
+redis_conf_path: /etc/redis/
+redis_version: redis-5.0.2
+build_package:
+ - build-essential
+ - tcl
