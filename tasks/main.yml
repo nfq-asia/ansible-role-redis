@@ -42,17 +42,17 @@
 - name: Configure Redis and restart service.
   template:
     src: redis.conf
-    dest: "{{ redis_conf_path }}"
+    dest: {{ redis_conf_path }}
     mode: 0644
     notify: restart redis
         
 - name: Clean up build dependencies
   apt:
-    name: "{{ build_package}}"
+    name: {{ build_package}}
     state: absent
 - name: Check service Redis and enabled on boot.
   service: 
-    name: "{{ redis_daemon }}"
+    name: {{ redis_daemon }}
     state: started
     enabled: yes
 
