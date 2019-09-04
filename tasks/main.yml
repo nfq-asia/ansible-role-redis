@@ -5,7 +5,7 @@
     state: present
 
 - name: Download source redis
-  get_url: url=http://download.redis.io/releases/{{ redis_source_name }} dest=/tmp
+  get_url: url=http://download.redis.io/releases/{{ redis_version }}.tar.gz dest=/tmp
 
 - name: Unrar file
   unarchive:
@@ -47,19 +47,19 @@
     group: redis
     mode: 0775
 
-- name: Set overcommit_memory and net.core.somaxcon in /etc/sysctl.conf
-  blockinfile:
-    path: /etc/sysctl.conf
+- name: Increase Overcommit_memory
+  sysctl:
+    name: vm.overcommit_memory
+    value: 1
     state: present
-    insertbefore: EOF
-    block: |
-      vm.overcommit_memory=1
-      net.core.somaxconn=65535
-  register: modify_kernel
+    reload: yes
 
-- name: Reboot machine
-  reboot:
-  when: modify_kernel.changed
+- name: Increase SoMaxConn
+  sysctl:
+    name: net.core.somaxconn
+    value: 65535
+    state: present
+    reload: yes
 
 - name: Configure Redis and restart service.
   template:
