@@ -11,7 +11,7 @@
   unarchive:
     copy: no
     dest: /tmp/
-    src: /tmp/{{ redis_source_name }}
+    src: /tmp/{{ redis_source }}.tar.gz
 - name: make file and install
   shell: cd /tmp/{{ redis_version }} && make && make install
 
