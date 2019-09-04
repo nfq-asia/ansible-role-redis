@@ -26,6 +26,14 @@
     group: redis
     mode: 0775
 
+- name: Make log directory
+  file:
+    path: /var/log/redis
+    state: directory
+    owner: redis
+    group: redis
+    mode: 0775
+
 - name: Make file systemd
   template:
     src: redis.service
@@ -38,6 +46,20 @@
     owner: redis
     group: redis
     mode: 0775
+
+- name: Set overcommit_memory and net.core.somaxcon in /etc/sysctl.conf
+  blockinfile:
+    path: /etc/sysctl.conf
+    state: present
+    insertbefore: EOF
+    block: |
+      vm.overcommit_memory=1
+      net.core.somaxconn=65535
+  register: modify_kernel
+
+- name: Reboot machine
+  reboot:
+  when: modify_kernel.changed
 
 - name: Configure Redis and restart service.
   template:
