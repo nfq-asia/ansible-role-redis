@@ -15,6 +15,9 @@
 - name: make file and install
   shell: cd /tmp/{{ redis_version }} && make && make install
 
+- name: Create Redis User Group and Dir
+  command: "adduser --system --group --no-create-home redis"
+
 - name: Make a directory
   file:
     path: /etc/redis
@@ -27,9 +30,6 @@
   template:
     src: redis.service
     dest: /etc/systemd/system/
-        
-- name: Create Redis User Group and Dir
-  command: "adduser --system --group --no-create-home redis"
 
 - name: Set ownership and permission
   file:
