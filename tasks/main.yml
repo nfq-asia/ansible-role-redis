@@ -44,7 +44,7 @@
     src: "redis.conf"
     dest: "{{ redis_conf_path }}"
     mode: 0644
-    notify: restart redis
+  notify: restart redis
         
 - name: Clean up build dependencies
   apt:
