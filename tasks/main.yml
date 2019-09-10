@@ -7,7 +7,7 @@
 - name: Download source redis
   get_url: url=http://download.redis.io/releases/{{ redis_version }}.tar.gz dest=/tmp
 
-- name: Unrar file
+- name: unarchive file
   unarchive:
     copy: no
     dest: /tmp/
