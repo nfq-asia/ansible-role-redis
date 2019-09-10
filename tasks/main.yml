@@ -67,6 +67,16 @@
     dest: "{{ redis_conf_path }}"
     mode: 0644
   notify: restart redis
+
+- name: Make logrotate directory
+  file:
+    path: /etc/logrotate.d
+    state: directory
+
+- name: Configure logrotate
+  template:
+    src: {{ redis_logrotate_conf_template }}
+    dest: "/etc/logrotate.d/redis_logrotate.conf"
         
 - name: Clean up build dependencies
   apt:
