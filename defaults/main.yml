@@ -6,6 +6,7 @@ redis_version: redis-5.0.2
 redis_requirepass: ""
 redis_bindip: 0.0.0.0
 redis_logfile: /var/log/redis/redis-server.log
+redis_logrotate_conf_template: redis_logrotate.conf.j2
 build_package:
  - build-essential
  - tcl
