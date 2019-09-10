@@ -7,7 +7,7 @@
 - name: Download source redis
   get_url: url=http://download.redis.io/releases/{{ redis_version }}.tar.gz dest=/tmp
 
-- name: Unrar file
+- name: unarchive file
   unarchive:
     copy: no
     dest: /tmp/
@@ -67,6 +67,16 @@
     dest: "{{ redis_conf_path }}"
     mode: 0644
   notify: restart redis
+
+- name: Make logrotate directory
+  file:
+    path: /etc/logrotate.d
+    state: directory
+
+- name: Configure logrotate
+  template:
+    src: "{{ redis_logrotate_conf_template }}"
+    dest: "/etc/logrotate.d/redis_logrotate.conf"
         
 - name: Clean up build dependencies
   apt:
