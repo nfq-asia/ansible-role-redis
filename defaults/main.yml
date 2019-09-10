@@ -3,6 +3,8 @@ redis_package: redis-server
 redis_daemon: redis.service
 redis_conf_path: /etc/redis/
 redis_version: redis-5.0.2
+redis_requirepass: ""
+redis_bindip: 0.0.0.0
 build_package:
  - build-essential
  - tcl
